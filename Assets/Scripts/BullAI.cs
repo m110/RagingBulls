@@ -15,13 +15,7 @@ public class BullAI : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.tag == "Wall") {
-            herdAI.HitWall();
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collider) {
-        if (collider.tag == "Board") {
-            herdAI.HitWall();
+            herdAI.HitWall(collider.gameObject);
         }
     }
 }

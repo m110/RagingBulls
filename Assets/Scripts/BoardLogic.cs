@@ -63,9 +63,18 @@ public class BoardLogic : MonoBehaviour {
         var size = wall.GetComponent<BoxCollider2D>().bounds.size.x;
         var offsetX = BOARD_WIDTH * size / 2.0f - size * 0.5f;
         var offsetY = BOARD_HEIGHT * size / 2.0f - size * 0.5f;
-
         wall.localPosition = new Vector2(x * size - offsetX, -y * size + offsetY);
 
+        wall.GetComponent<Wall>().SetPosition(x, y);
+
         walls[y, x] = wall;
+    }
+
+    public Transform GetWall(int x, int y) {
+        if (x < 1 || y < 1 || x >= BOARD_WIDTH - 1 || y >= BOARD_HEIGHT - 1){
+            throw new IndexOutOfRangeException("Invalid wall coords");
+        }
+
+        return walls[y, x];
     }
 }
