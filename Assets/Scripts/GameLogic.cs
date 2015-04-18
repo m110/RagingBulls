@@ -18,6 +18,9 @@ public class GameLogic : MonoBehaviour {
     private int increaseTimerAfter = 3;
     private float increaseTimerBy = 4.0f;
 
+    private float powerupTimer = 0.0f;
+    private float powerupInterval = 5.0f;
+
     private Transform[] players;
 
 	void Start () {
@@ -41,15 +44,27 @@ public class GameLogic : MonoBehaviour {
                 spawnTimer -= Time.deltaTime;
             }
         }
+
+        if (powerupTimer <= 0) {
+            var powerUps = GameObject.FindGameObjectsWithTag("PowerUp");
+            if (powerUps.Length > 0) {
+                var powerUp = powerUps[Random.Range(0, powerUps.Length)];
+                powerUp.GetComponent<PowerUp>().SetReady();
+
+                powerupTimer = powerupInterval;
+            }
+        } else {
+            powerupTimer -= Time.deltaTime;
+        }
 	}
 
     void SpawnPlayers() {
         for (int i = 0; i < 2; i++) {
             players[i] = Instantiate(playerPrefab, playerSpawns[i].position, Quaternion.identity) as Transform;
+            players[i].GetComponent<Animator>().SetInteger("Player", i + 1);
             players[i].GetComponent<Player>().horizontalAxis = "Horizontal" + (i + 1);
             players[i].GetComponent<Player>().verticalAxis = "Vertical" + (i + 1);
             players[i].GetComponent<Player>().fireButton = "Fire" + (i + 1);
-            players[i].GetComponent<Animator>().SetInteger("Player", i + 1);
         }
     }
 

@@ -7,6 +7,7 @@ public class BoardLogic : MonoBehaviour {
     public Transform solidWall;
     public Transform fragileWall;
     public Transform invisibleWall;
+    public Transform powerUp;
 
     const int BOARD_HEIGHT = 14;
     const int BOARD_WIDTH = 21;
@@ -15,10 +16,17 @@ public class BoardLogic : MonoBehaviour {
     const char SOLID_WALL = '#';
     const char FRAGILE_WALL = '!';
     const char INVISIBLE_WALL = '*';
+    const char POWER_UP = 'P';
 
     Transform[,] walls;
 
+    float wallSize;
+
 	void Start () {
+        var tmp = Instantiate(invisibleWall, Vector2.zero, Quaternion.identity) as Transform;
+        wallSize = tmp.GetComponent<BoxCollider2D>().bounds.size.x;
+        Destroy(tmp.gameObject);
+
         LoadLevel(1);
 	}
 	
@@ -40,34 +48,42 @@ public class BoardLogic : MonoBehaviour {
     }
 
     void AddWall(int y, int x, char symbol) {
-        Transform wallPrefab;
+        Transform prefab;
+        bool wall = false;
+
         switch (symbol) {
             case NO_WALL:
                 return;
             case SOLID_WALL:
-                wallPrefab = solidWall;
+                prefab = solidWall;
+                wall = true;
                 break;
             case FRAGILE_WALL:
-                wallPrefab = fragileWall;
+                prefab = fragileWall;
+                wall = true;
                 break;
             case INVISIBLE_WALL:
-                wallPrefab = invisibleWall;
+                prefab = invisibleWall;
+                wall = true;
+                break;
+            case POWER_UP:
+                prefab = powerUp;
                 break;
             default:
                 return;
         }
 
-        var wall = Instantiate(wallPrefab, Vector2.zero, Quaternion.identity) as Transform;
-        wall.parent = transform;
+        var obj = Instantiate(prefab, Vector2.zero, Quaternion.identity) as Transform;
+        obj.parent = transform;
 
-        var size = wall.GetComponent<BoxCollider2D>().bounds.size.x;
-        var offsetX = BOARD_WIDTH * size / 2.0f - size * 0.5f;
-        var offsetY = BOARD_HEIGHT * size / 2.0f - size * 0.5f;
-        wall.localPosition = new Vector2(x * size - offsetX, -y * size + offsetY);
+        var offsetX = BOARD_WIDTH * wallSize / 2.0f - wallSize * 0.5f;
+        var offsetY = BOARD_HEIGHT * wallSize / 2.0f - wallSize * 0.5f;
+        obj.localPosition = new Vector2(x * wallSize - offsetX, -y * wallSize + offsetY);
 
-        wall.GetComponent<Wall>().SetPosition(x, y);
-
-        walls[y, x] = wall;
+        if (wall) {
+            obj.GetComponent<Wall>().SetPosition(x, y);
+            walls[y, x] = obj;
+        }
     }
 
     public Transform GetWall(int x, int y) {
