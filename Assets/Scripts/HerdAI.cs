@@ -18,7 +18,7 @@ public class HerdAI : MonoBehaviour {
     bool moving = false;
     Directions direction;
 
-    float movementSpeed = 7.0f;
+    float movementSpeed = 3.0f;
 
     GameObject board;
 
@@ -72,9 +72,7 @@ public class HerdAI : MonoBehaviour {
                 if (board.GetComponent<BoardLogic>().GetWall(wallX, wallY) == null) {
                     availableDirections.Add(dir);
                 }
-            } catch (IndexOutOfRangeException) { 
-                Debug.Log("Exception"); 
-            }
+            } catch (IndexOutOfRangeException) {}
         }
 
         if (availableDirections.Count == 0) {

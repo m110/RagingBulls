@@ -1,23 +1,25 @@
 fileFormatVersion: 2
-guid: 7854c4c9260a80f4ea46b07e36092981
-timeCreated: 1429372356
+guid: a096a44208a41c84ebe75062da819850
+timeCreated: 1429368719
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: bull_0
-    21300002: bull_1
-    21300004: bull_2
-    21300006: bull_3
-    21300008: bull_4
-    21300010: bull_5
-    21300012: bull_6
-    21300014: bull_7
-    21300016: bull_8
-    21300018: bull_9
-    21300020: bull_10
-    21300022: bull_11
-    21300024: bull_12
-    21300026: bull_13
+    21300000: torero_a_0
+    21300002: torero_a_1
+    21300004: torero_a_2
+    21300006: torero_a_3
+    21300008: torero_a_4
+    21300010: torero_a_5
+    21300012: torero_a_6
+    21300014: torero_a_7
+    21300016: torero_a_8
+    21300018: torero_a_9
+    21300020: torero_a_10
+    21300022: torero_a_11
+    21300024: torero_a_12
+    21300026: torero_a_13
+    21300028: torero_a_14
+    21300030: torero_a_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -63,143 +65,163 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: bull_0
+    - name: torero_a_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_1
+    - name: torero_a_1
       rect:
         serializedVersion: 2
         x: 500
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_2
+    - name: torero_a_2
       rect:
         serializedVersion: 2
         x: 1000
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_3
+    - name: torero_a_3
       rect:
         serializedVersion: 2
         x: 1500
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_4
+    - name: torero_a_4
       rect:
         serializedVersion: 2
         x: 2000
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_5
+    - name: torero_a_5
       rect:
         serializedVersion: 2
         x: 2500
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_6
+    - name: torero_a_6
       rect:
         serializedVersion: 2
         x: 3000
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_7
+    - name: torero_a_7
       rect:
         serializedVersion: 2
         x: 3500
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_8
+    - name: torero_a_8
       rect:
         serializedVersion: 2
         x: 4000
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_9
+    - name: torero_a_9
       rect:
         serializedVersion: 2
         x: 4500
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_10
+    - name: torero_a_10
       rect:
         serializedVersion: 2
         x: 5000
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_11
+    - name: torero_a_11
       rect:
         serializedVersion: 2
         x: 5500
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_12
+    - name: torero_a_12
       rect:
         serializedVersion: 2
         x: 6000
         y: 0
         width: 500
-        height: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: bull_13
+    - name: torero_a_13
       rect:
         serializedVersion: 2
         x: 6500
         y: 0
         width: 500
-        height: 500
+        height: 364
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: torero_a_14
+      rect:
+        serializedVersion: 2
+        x: 7000
+        y: 0
+        width: 500
+        height: 364
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: torero_a_15
+      rect:
+        serializedVersion: 2
+        x: 7500
+        y: 0
+        width: 500
+        height: 364
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
