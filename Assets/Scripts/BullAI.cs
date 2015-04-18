@@ -3,13 +3,19 @@ using System.Collections;
 
 public class BullAI : MonoBehaviour {
 
-	// Use this for initialization
+    HerdAI herdAI;
+
 	void Start () {
-	
+        herdAI = transform.parent.GetComponent<HerdAI>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	
+
 	}
+
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.tag == "Wall") {
+            herdAI.HitWall();
+        }
+    }
 }
