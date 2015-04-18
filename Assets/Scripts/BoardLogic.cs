@@ -6,13 +6,15 @@ public class BoardLogic : MonoBehaviour {
 
     public Transform solidWall;
     public Transform fragileWall;
+    public Transform invisibleWall;
 
-    const int BOARD_HEIGHT = 12;
-    const int BOARD_WIDTH = 19;
+    const int BOARD_HEIGHT = 14;
+    const int BOARD_WIDTH = 21;
 
     const char NO_WALL = '_';
     const char SOLID_WALL = '#';
     const char FRAGILE_WALL = '!';
+    const char INVISIBLE_WALL = '*';
 
     Transform[,] walls;
 
@@ -48,6 +50,9 @@ public class BoardLogic : MonoBehaviour {
             case FRAGILE_WALL:
                 wallPrefab = fragileWall;
                 break;
+            case INVISIBLE_WALL:
+                wallPrefab = invisibleWall;
+                break;
             default:
                 return;
         }
@@ -56,8 +61,8 @@ public class BoardLogic : MonoBehaviour {
         wall.parent = transform;
 
         var size = wall.GetComponent<BoxCollider2D>().bounds.size.x;
-        var offsetX = BOARD_WIDTH * size / 2.0f - size / 2.0f;
-        var offsetY = BOARD_HEIGHT * size / 2.0f - size / 2.0f;
+        var offsetX = BOARD_WIDTH * size / 2.0f - size * 0.5f;
+        var offsetY = BOARD_HEIGHT * size / 2.0f - size * 0.5f;
 
         wall.localPosition = new Vector2(x * size - offsetX, -y * size + offsetY);
 

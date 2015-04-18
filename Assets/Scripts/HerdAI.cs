@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+enum Directions {
+    NORTH,
+    EAST,
+    SOUTH,
+    WEST,
+};
+
 public class HerdAI : MonoBehaviour {
 
     public Transform bullPrefab;
 
     bool moving = false;
-    Vector3 direction;
+    Directions direction;
 
-    float movementSpeed = 4.0f;
+    float movementSpeed = 6.0f;
 
 	void Start () {
 	
@@ -20,7 +27,7 @@ public class HerdAI : MonoBehaviour {
         }
 
         transform.position = Vector3.Lerp(transform.position,
-                                          transform.position + direction * movementSpeed,
+                                          transform.position + transform.up * movementSpeed,
                                           Time.deltaTime);
 
         var bulls = GetComponentsInChildren<BullAI>();
@@ -40,26 +47,43 @@ public class HerdAI : MonoBehaviour {
 
     public void HitWall() {
         moving = false;
+
+        var choice = Random.Range(0, 2);
+
+        Directions new_direction;
+        if (direction == Directions.NORTH || direction == Directions.SOUTH) {
+            new_direction = choice == 0 ? Directions.EAST : Directions.WEST;
+        } else {
+            new_direction = choice == 0 ? Directions.NORTH : Directions.SOUTH;
+        }
+
+        switch (new_direction) {
+            case Directions.NORTH: MoveNorth(); break;
+            case Directions.EAST: MoveEast(); break;
+            case Directions.SOUTH: MoveSouth(); break;
+            case Directions.WEST: MoveWest(); break;
+        }
     }
 
     public void MoveNorth() {
-        Move(transform.up);
+        Move(Directions.NORTH, 0.0f);
     }
 
     public void MoveEast() {
-        Move(transform.right);
+        Move(Directions.EAST, 90.0f);
     }
 
     public void MoveSouth() {
-        Move(-transform.up);
+        Move(Directions.SOUTH, 180.0f);
     }
 
     public void MoveWest() {
-        Move(-transform.right);
+        Move(Directions.WEST, 270.0f);
     }
 
-    void Move(Vector3 moveDirection) {
+    void Move(Directions moveDirection, float rotation) {
         moving = true;
         direction = moveDirection;
+        transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
 }
