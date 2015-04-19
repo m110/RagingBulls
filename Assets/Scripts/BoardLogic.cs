@@ -107,6 +107,15 @@ public class BoardLogic : MonoBehaviour {
         return true;
     }
 
+    public void BreakWall(int x, int y) {
+        var wall = GetWall(x, y);
+
+        if (wall.GetComponent<Wall>().breakable) {
+            Destroy(wall.gameObject);
+            walls[y, x] = null;
+        }
+    }
+
     public Transform GetWall(int x, int y) {
         if (x < 1 || y < 1 || x >= BOARD_WIDTH - 1 || y >= BOARD_HEIGHT - 1){
             throw new IndexOutOfRangeException("Invalid wall coords");

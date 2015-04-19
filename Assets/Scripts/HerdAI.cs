@@ -18,7 +18,10 @@ public class HerdAI : MonoBehaviour {
     bool moving = false;
     Directions direction;
 
+    bool raging = false;
+
     float movementSpeed = 3.0f;
+    float ragingBoost = 2.0f;
 
     GameObject board;
 
@@ -31,8 +34,13 @@ public class HerdAI : MonoBehaviour {
             return;
         }
 
+        var speed = movementSpeed;
+        if (raging) {
+            speed *= ragingBoost;
+        }
+
         transform.position = Vector3.Lerp(transform.position,
-                                          transform.position + transform.up * movementSpeed,
+                                          transform.position + transform.up * speed,
                                           Time.deltaTime);
 
         var bulls = GetComponentsInChildren<BullAI>();
@@ -51,6 +59,11 @@ public class HerdAI : MonoBehaviour {
     }
 
     public void HitWall(GameObject collider) {
+        if (raging && collider.GetComponent<Wall>().breakable) {
+            collider.GetComponent<Wall>().Break();
+            return;
+        }
+
         moving = false;
 
         int x = collider.GetComponent<Wall>().x;
@@ -137,5 +150,9 @@ public class HerdAI : MonoBehaviour {
         moving = true;
         direction = moveDirection;
         transform.rotation = Quaternion.Euler(0, 0, rotation);
+    }
+
+    public void SetRaging(bool isRaging) {
+        raging = isRaging;
     }
 }

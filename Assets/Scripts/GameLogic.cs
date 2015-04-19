@@ -21,6 +21,10 @@ public class GameLogic : MonoBehaviour {
     private float powerupTimer = 0.0f;
     private float powerupInterval = 5.0f;
 
+    private bool raging = false;
+    private float ragingTimer = 0.0f;
+    private float ragingTimeout = 3.0f;
+
     private Transform[] players;
 
 	void Start () {
@@ -56,6 +60,16 @@ public class GameLogic : MonoBehaviour {
         } else {
             powerupTimer -= Time.deltaTime;
         }
+
+        if (raging) {
+            if (ragingTimer <= 0) {
+                foreach (var herd in GameObject.FindGameObjectsWithTag("Herd")) {
+                    herd.GetComponent<HerdAI>().SetRaging(false);
+                }
+            } else {
+                ragingTimer -= Time.deltaTime;
+            }
+        }
 	}
 
     void SpawnPlayers() {
@@ -76,5 +90,14 @@ public class GameLogic : MonoBehaviour {
         herd.GetComponent<HerdAI>().MoveNorth();
 
         return herd;
+    }
+
+    public void SetRaging() {
+        raging = true;
+        ragingTimer = ragingTimeout;
+
+        foreach (var herd in GameObject.FindGameObjectsWithTag("Herd")) {
+            herd.GetComponent<HerdAI>().SetRaging(true);
+        }
     }
 }

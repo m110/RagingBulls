@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 enum PlayerDirections {
@@ -23,17 +24,21 @@ public class Player : MonoBehaviour {
     GameObject lastField;
 
     BoardLogic board;
+    GameLogic game;
+    GameObject status;
 
     public void Init(int number) {
         horizontalAxis = "Horizontal" + number;
         verticalAxis = "Vertical" + number;
         fireButton = "Fire" + number;
+        status = GameObject.FindGameObjectWithTag("PlayerStatus" + number);
         ready = true;
     }
 
     void Start() {
         animator = GetComponent<Animator>();
         board = GameObject.FindGameObjectWithTag("Board").GetComponent<BoardLogic>();
+        game = GameObject.FindGameObjectWithTag("Game").GetComponent<GameLogic>();
     }
 
     void Update() {
@@ -138,6 +143,7 @@ public class Player : MonoBehaviour {
     void AddPowerUp(PowerUps powerUp) {
         powerUpEquipped = true;
         activePowerUp = powerUp;
+        status.GetComponent<Text>().text = PowerUp.powerUpNames[(int)powerUp];
     }
 
     void UsePowerUp() {
@@ -151,7 +157,8 @@ public class Player : MonoBehaviour {
                 var field = lastField.GetComponent<Field>();
                 CoordsInDirection(field.x, field.y, direction, out x, out y);
 
-                if (field.HasVisitors()) {
+                var newField = board.GetField(x, y);
+                if (newField == null || newField.GetComponent<Field>().HasVisitors()) {
                     return;
                 }
                 
@@ -160,10 +167,14 @@ public class Player : MonoBehaviour {
                 }
 
                 break;
+            case PowerUps.RAGING:
+                game.SetRaging();
+                break;
             default:
                 return;
         }
 
         powerUpEquipped = false;
+        status.GetComponent<Text>().text = "";
     }
 }

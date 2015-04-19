@@ -3,9 +3,12 @@ using System.Collections;
 
 public enum PowerUps {
     BLOCK,
+    RAGING,
 };
 
 public class PowerUp : MonoBehaviour {
+
+    public static string[] powerUpNames = { "Wall", "Rage" };
 
     bool active = false;
     PowerUps powerUp;
