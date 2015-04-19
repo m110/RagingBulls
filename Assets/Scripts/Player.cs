@@ -51,10 +51,40 @@ public class Player : MonoBehaviour {
 
             var movement = new Vector2(moveHorizontal, moveVertical);
             rigidbody.velocity = movement * speed;
+
+            SetRotation(moveHorizontal, moveVertical);
         } else {
             animator.SetBool("Moving", false);
             rigidbody.velocity = Vector2.zero;
         }
+    }
+
+    void SetRotation(float moveHorizontal, float moveVertical) {
+        float angleHorizontal = 0.0f, angleVertical = 0.0f, angle = 0.0f;
+
+        if (moveHorizontal < 0.0f) {
+            angleHorizontal = 90.0f;
+        } else if (moveHorizontal > 0.0f) {
+            angleHorizontal = -90.0f;
+        }
+
+        if (moveVertical < 0.0f) {
+            angleVertical = 180.0f;
+        } else if (moveVertical > 0.0f) {
+            angleVertical = 0.0f;
+        }
+
+        if (moveVertical == 0.0f) {
+            angle = angleHorizontal;
+        } else if (moveHorizontal == 0.0f) {
+            angle = angleVertical;
+        } else {
+            float sign = Mathf.Sign(angleHorizontal);
+
+            angle = sign * ((Mathf.Abs(angleHorizontal) + angleVertical) / 2.0f);
+        }
+
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
