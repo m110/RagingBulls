@@ -10,7 +10,6 @@ public class BullAI : MonoBehaviour {
 	}
 	
 	void Update () {
-
 	}
 
     void OnTriggerEnter2D(Collider2D collider) {

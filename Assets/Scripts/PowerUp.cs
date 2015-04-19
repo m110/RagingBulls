@@ -25,6 +25,9 @@ public class PowerUp : MonoBehaviour {
 
         active = true;
 
+        System.Array values = System.Enum.GetValues(typeof(PowerUps));
+        powerUp = (PowerUps)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<CircleCollider2D>().enabled = true;
     }

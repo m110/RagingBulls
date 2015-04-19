@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+enum PlayerDirections {
+    N, NE, E, SE, S, SW, W, NW
+};
+
 public class Player : MonoBehaviour {
     private float speed = 4.0f;
 
@@ -15,6 +19,11 @@ public class Player : MonoBehaviour {
     bool powerUpEquipped = false;
     PowerUps activePowerUp;
 
+    PlayerDirections direction = PlayerDirections.N;
+    GameObject lastField;
+
+    BoardLogic board;
+
     public void Init(int number) {
         horizontalAxis = "Horizontal" + number;
         verticalAxis = "Vertical" + number;
@@ -24,6 +33,7 @@ public class Player : MonoBehaviour {
 
     void Start() {
         animator = GetComponent<Animator>();
+        board = GameObject.FindGameObjectWithTag("Board").GetComponent<BoardLogic>();
     }
 
     void Update() {
@@ -59,32 +69,58 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void SetRotation(float moveHorizontal, float moveVertical) {
-        float angleHorizontal = 0.0f, angleVertical = 0.0f, angle = 0.0f;
+    void SetRotation(float horizontal, float vertical) {
+        float angle = 0.0f;
 
-        if (moveHorizontal < 0.0f) {
-            angleHorizontal = 90.0f;
-        } else if (moveHorizontal > 0.0f) {
-            angleHorizontal = -90.0f;
-        }
-
-        if (moveVertical < 0.0f) {
-            angleVertical = 180.0f;
-        } else if (moveVertical > 0.0f) {
-            angleVertical = 0.0f;
-        }
-
-        if (moveVertical == 0.0f) {
-            angle = angleHorizontal;
-        } else if (moveHorizontal == 0.0f) {
-            angle = angleVertical;
+        if (horizontal > 0.0f) {
+            if (vertical > 0.0f) {
+                direction = PlayerDirections.NE;
+                angle = -45.0f;
+            } else if (vertical < 0.0f) {
+                direction = PlayerDirections.SE;
+                angle = -135.0f;
+            } else {
+                direction = PlayerDirections.E;
+                angle = -90.0f;
+            }
+        } else if (horizontal < 0.0f) {
+            if (vertical > 0.0f) {
+                direction = PlayerDirections.NW;
+                angle = 45.0f;
+            } else if (vertical < 0.0f) {
+                direction = PlayerDirections.SW;
+                angle = 135.0f;
+            } else {
+                direction = PlayerDirections.W;
+                angle = 90.0f;
+            }
         } else {
-            float sign = Mathf.Sign(angleHorizontal);
-
-            angle = sign * ((Mathf.Abs(angleHorizontal) + angleVertical) / 2.0f);
+            if (vertical > 0.0f) {
+                direction = PlayerDirections.N;
+                angle = 0.0f;
+            } else if (vertical < 0.0f) {
+                direction = PlayerDirections.S;
+                angle = 180.0f;
+            }
         }
 
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
+    }
+    
+    void CoordsInDirection(int x, int y, PlayerDirections dir, out int newX, out int newY) {
+        newX = x;
+        newY = y;
+
+        switch (dir) {
+            case PlayerDirections.N: newY--; break;
+            case PlayerDirections.NE: newX++;  newY--; break;
+            case PlayerDirections.E: newX++; break;
+            case PlayerDirections.SE: newX++;  newY++; break;
+            case PlayerDirections.S: newY++; break;
+            case PlayerDirections.SW: newX--;  newY++; break;
+            case PlayerDirections.W: newX--; break;
+            case PlayerDirections.NW: newX--; newY--; break;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
@@ -94,6 +130,8 @@ public class Player : MonoBehaviour {
                 powerUp.PickUp();
                 AddPowerUp(powerUp.GetActivePowerUp());
             }
+        } else if (collider.tag == "Field") {
+            lastField = collider.gameObject;
         }
     }
 
@@ -103,11 +141,29 @@ public class Player : MonoBehaviour {
     }
 
     void UsePowerUp() {
-        powerUpEquipped = false;
+        if (!powerUpEquipped) {
+            return;
+        }
 
         switch (activePowerUp) {
             case PowerUps.BLOCK:
+                int x, y;
+                var field = lastField.GetComponent<Field>();
+                CoordsInDirection(field.x, field.y, direction, out x, out y);
+
+                if (field.HasVisitors()) {
+                    return;
+                }
+                
+                if (!board.AddWall(y, x, '!')) {
+                    return;
+                }
+
                 break;
+            default:
+                return;
         }
+
+        powerUpEquipped = false;
     }
 }
