@@ -62,9 +62,7 @@ public class GameLogic : MonoBehaviour {
         for (int i = 0; i < 2; i++) {
             players[i] = Instantiate(playerPrefab, playerSpawns[i].position, Quaternion.identity) as Transform;
             players[i].GetComponent<Animator>().SetInteger("Player", i + 1);
-            players[i].GetComponent<Player>().horizontalAxis = "Horizontal" + (i + 1);
-            players[i].GetComponent<Player>().verticalAxis = "Vertical" + (i + 1);
-            players[i].GetComponent<Player>().fireButton = "Fire" + (i + 1);
+            players[i].GetComponent<Player>().Init(i + 1);
         }
     }
 
